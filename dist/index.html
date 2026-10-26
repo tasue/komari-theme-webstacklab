@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>Komari Monitor</title>
+  <meta name="description" content="A simple server monitor tool." />
+  <link rel="icon" type="image/svg+xml" href="/themes/webstack-observatory/dist/assets/favicon.svg">
+  <link rel="stylesheet" href="/themes/webstack-observatory/dist/assets/bundle.css?v=1.2.2">
+</head>
+<body>
+<div class="ambient"></div>
+<div class="dashboard">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="返回监控首页"><span class="brand-mark" id="brandMark">W</span><div><strong id="brandName">WEBSTACK</strong><span id="brandSubtitle">运维中心</span></div></a>
+    <div class="heading"><div><h1 id="dashboardTitle">WebStackLab 全球监控中心</h1><p id="subtitle">全球节点 · 资源总览 · 网络质量</p></div></div>
+    <div class="top-tools"><div class="clock"><strong id="clock">--:--:--</strong><span id="date">—</span></div><button id="fullscreen" class="icon-button" aria-label="进入全屏" title="全屏">⛶</button><a id="adminLink" class="icon-button" href="/admin" aria-label="管理后台" title="管理后台">⚙</a></div>
+  </header>
+  <div class="system-line"><span><i class="status-dot" id="connectionDot"></i><b id="connectionText">正在连接监控数据</b><span class="demo-badge" id="demoBadge" hidden>演示数据</span></span><span id="lastUpdate">等待首次更新</span></div>
+  <section class="kpi-strip" aria-label="全局资源统计">
+    <div class="kpi"><span class="kpi-icon">▤</span><div><span class="eyebrow">监控节点 </span><strong id="kpiNodes">—</strong><span class="kpi-detail" id="kpiOnline">等待数据</span></div><div class="kpi-spark" id="sparkNodes"></div></div>
+    <div class="kpi"><span class="kpi-icon">◈</span><div><span class="eyebrow">计算资源 </span><strong id="kpiCores">—</strong><span class="kpi-detail" id="kpiCpu">在线节点 CPU 核心</span></div><div class="kpi-spark" id="sparkCpu"></div></div>
+    <div class="kpi"><span class="kpi-icon">⇅</span><div><span class="eyebrow">实时吞吐 </span><strong id="kpiSpeed">—</strong><span class="kpi-detail" id="kpiDirection">↑ —　↓ —</span></div><div class="kpi-spark" id="sparkNet"></div></div>
+    <div class="kpi"><span class="kpi-icon">⌁</span><div><span class="eyebrow">今日流量 </span><strong id="kpiTraffic">—</strong><span class="kpi-detail" id="todayDetail">正在统计今日上下行</span></div><div class="kpi-spark" id="sparkTraffic"></div></div>
+  </section>
+  <main class="main-grid">
+    <aside class="left-column">
+      <section class="panel health-panel"><div class="panel-heading"><h2><span>01</span>集群运行状态</h2><span class="panel-tag">运行状态</span></div><div class="health-overview"><div class="health-ring" id="healthRing"><svg viewBox="0 0 120 120"><circle class="ring-track" cx="60" cy="60" r="50"/><circle id="healthArc" cx="60" cy="60" r="50"/></svg><div><strong id="healthPercent">—</strong><small>节点在线率</small></div></div><p><span id="healthMessage">等待节点上报</span><small id="healthCaption">正在建立实时连接</small></p></div><div id="statusBars" class="status-bars"></div><div class="cluster-stats"><div><strong id="healthyRatio">—</strong><span>健康节点占比</span></div><div><strong id="attentionCount">—</strong><span>需关注节点</span></div><div><strong id="maxPingLoss">—</strong><span>最高丢包率</span></div></div></section>
+      <section class="panel alert-panel ping-panel"><div class="panel-heading"><h2><span>02</span>网络探测质量</h2><span class="panel-tag">延迟 / 丢包</span></div><div class="ping-select-line"><span>近 1 小时</span><select id="pingTask" aria-label="选择探测任务" title="选择任务 · 最近一小时加权统计"><option value="all">全部探测任务</option></select></div><div class="ping-table-heading"><span>监测节点</span><span>延迟均值</span><span>丢包率</span></div><div id="pingList" class="ping-list"><div class="empty-state">正在读取探测数据…</div></div><div class="alert-footer"><span><i></i><span id="pingUpdated">等待探测记录</span></span><small>每 30 秒更新</small></div></section>
+    </aside>
+    <div class="center-column">
+      <section class="panel map-panel"><div class="panel-heading"><h2><span>03</span>全球节点分布</h2><span class="panel-tag"><i class="status-dot"></i> 实时分布</span></div><div class="map-headline"><div><strong id="mapNodeCount">—</strong><span>个节点连接全球</span></div><div class="ping-summary"><div><span>探测延迟均值</span><strong id="globalPing">—</strong></div><div><span>探测丢包率</span><strong id="globalLoss">—</strong></div><span id="mapRegionCount" hidden>— REGIONS</span></div></div><div class="map-stage"><div class="hud-orbit" aria-hidden="true"></div><div class="hud-crosshair" aria-hidden="true"></div><svg id="worldMap" viewBox="0 0 1000 500" role="img" aria-label="世界地图与节点分布"><defs><radialGradient id="mapGlow"><stop offset="0" stop-color="#0c4861" stop-opacity=".5"/><stop offset="1" stop-color="#061928" stop-opacity="0"/></radialGradient><filter id="dotGlow"><feGaussianBlur stdDeviation="3"/></filter><linearGradient id="routeColor"><stop stop-color="#19e1c3" stop-opacity=".05"/><stop offset="1" stop-color="#33d8f3" stop-opacity=".75"/></linearGradient></defs><ellipse cx="520" cy="260" rx="470" ry="270" fill="url(#mapGlow)"/><g id="mapGrid"></g><g id="countries"></g><g id="mapRoutes"></g><g id="mapMarkers"></g></svg><div class="map-corner top-left"></div><div class="map-corner bottom-right"></div><div class="map-scale"><span>网络状态</span><i></i><i></i><i></i><i></i><i></i></div></div><div class="map-bottom"><div class="legend"><span><i class="healthy"></i>正常</span><span><i class="warning"></i>关注</span><span><i class="critical"></i>危险</span><span><i class="offline"></i>离线</span></div><span class="map-note">按名称与地区估算位置 · 非实际链路</span></div></section>
+      <section class="panel fleet-panel"><div class="panel-heading"><h2><span>04</span>节点资源矩阵</h2><div class="fleet-tools"><input id="nodeSearch" type="search" placeholder="搜索节点…" aria-label="搜索节点"><select id="statusFilter" aria-label="筛选节点状态"><option value="all">全部状态</option><option value="online">在线节点</option><option value="attention">异常节点</option><option value="offline">离线节点</option></select></div></div><div class="table-scroll"><table><thead><tr><th>节点 / 地区</th><th>CPU</th><th>内存</th><th>网络 ↑ / ↓</th><th title="所选探测任务最近一小时成功探测的加权均值">延迟均值</th><th title="所选探测任务最近一小时失败次数 / 总次数">丢包率</th><th>状态</th></tr></thead><tbody id="fleetBody"></tbody></table><div id="fleetEmpty" class="empty-state" hidden>没有符合条件的节点</div></div><div class="table-footer"><span id="fleetCount">等待节点数据</span><span>点击节点查看右侧实时指标 <b>↗</b></span></div></section>
+    </div>
+    <aside class="right-column">
+      <section class="panel detail-panel"><div class="panel-heading"><h2><span>05</span>资源性能总览</h2><div class="view-switch"><button id="aggregateView" aria-pressed="true">全局汇总</button><button id="nodeView" aria-pressed="false">单节点</button></div></div><div class="node-heading"><span class="node-symbol">▥</span><div><h3 id="selectedName">等待节点数据</h3><p id="selectedMeta">—</p></div><span class="node-status" id="selectedStatus">—</span></div><div class="gauges" id="gauges"></div><div class="detail-stats"><div><span id="detailLabelOne">CPU 核心</span><strong id="selectedCores">—</strong></div><div><span id="detailLabelTwo">在线时长</span><strong id="selectedUptime">—</strong></div><div><span>TCP / UDP</span><strong id="selectedConnections">—</strong></div></div><div class="node-pagination" id="nodePagination"><button id="previousNode" class="icon-button" aria-label="上一个节点">‹</button><span><b id="selectedIndex">0</b><i> / </i><span id="totalIndex">0</span></span><button id="autoRotate" class="text-button" aria-pressed="true">Ⅱ 暂停轮播</button><button id="nextNode" class="icon-button" aria-label="下一个节点">›</button></div><div id="aggregateNote" class="aggregate-note">资源占用汇总在线节点 · 累计流量含已知离线节点</div></section>
+      <section class="panel traffic-panel"><div class="panel-heading"><h2><span>06</span>实时流量趋势</h2><span class="panel-tag">最近 1 小时</span></div><div class="traffic-numbers"><div><span><i class="up-dot"></i>上行速率</span><strong id="nodeUp">—</strong></div><div><span><i class="down-dot"></i>下行速率</span><strong id="nodeDown">—</strong></div></div><div class="traffic-chart"><svg id="trafficChart" viewBox="0 0 400 200" role="img" aria-label="最近一小时上下行速率趋势"></svg><div id="chartEmpty" class="chart-empty" hidden>暂无历史流量数据</div></div><div class="chart-footer"><span id="chartWindow">等待历史记录</span><span><i class="up-dot"></i>上行 <i class="down-dot"></i>下行</span></div></section>
+    </aside>
+  </main>
+  <footer class="footer"><span><i class="status-dot"></i><span id="footerState">正在初始化</span></span><span id="footerSite">全球监控大屏 · v1.2.2</span><span>Powered by Komari Monitor.</span></footer>
+</div>
+<div id="notice" role="status" class="notice" hidden></div>
+<script src="/themes/webstack-observatory/dist/assets/bundle.js?v=1.2.2" defer></script>
+</body>
+</html>
+
+
