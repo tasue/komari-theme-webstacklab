@@ -1,4 +1,4 @@
-# WebStackLab · Komari 全球监控大屏
+# Komari 全球监控大屏
 
 科技风 Komari 主题：全球节点地图、资源汇总、今日流量、Ping 延迟和丢包率。兼容目标为 Komari 1.6.x，不是独立监控服务。
 
