@@ -1,14 +1,8 @@
 {
-  "name": {
-    "zh-CN": "WebStackLab · 全球监控大屏",
-    "en": "WebStackLab Observatory"
-  },
+  "name": "WebStackLab · 全球监控大屏",
   "short": "webstack-observatory",
-  "description": {
-    "zh-CN": "深蓝科技风全球节点态势大屏，包含实时世界地图、资源指标、异常状态与流量趋势。",
-    "en": "A live global infrastructure operations dashboard."
-  },
-  "version": "1.2.2",
+  "description": "深蓝科技风全球节点态势大屏，包含实时世界地图、资源指标、异常状态与流量趋势。",
+  "version": "1.2.3",
   "author": "WebStackLab",
   "preview": "preview.png",
   "configuration": {
@@ -120,5 +114,6 @@
         "help": "以节点 UUID 为键，值为 {\"lat\":31.23,\"lon\":121.47,\"label\":\"上海\"}。留空时按名称中的城市或地区代码估算，地图仅作地区示意。此配置公开可见，勿填私密地址。"
       }
     ]
-  }
+  },
+  "url": "https://github.com/tasue/komari-theme-webstacklab"
 }

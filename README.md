@@ -4,9 +4,13 @@
 
 ![主题预览，使用演示数据](preview.png)
 
+## v1.2.3
+
+主题清单的名称和描述改为普通字符串，兼容官方主题市场当前的安装包校验器；补全项目地址。布局、功能和后台自定义设置保持一致。
+
 ## 安装
 
-从本仓库 Releases 下载 `WebStackLab-Observatory-v1.2.2.zip`，在 Komari 后台「主题管理」中上传并启用。
+从本仓库 Releases 下载 `WebStackLab-Observatory-v1.2.3.zip`，在 Komari 后台「主题管理」中上传并启用。
 
 请使用主题安装包，GitHub 自动生成的 “Source code” 源码 ZIP 不能直接作为主题安装。
 
